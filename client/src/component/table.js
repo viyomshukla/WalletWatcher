@@ -17,7 +17,7 @@ export default function BasicTable(props) {
     const token = Cookies.get("token");
     console.log("id",id);
     if(window.confirm("Are you sure  ")){
-  const res=await fetch(`http://localhost:4000/trans/${id}`,{   //use backtrick for delete
+  const res=await fetch(`https://walletwatcher-3.onrender.com/trans/${id}`,{   //use backtrick for delete
     method:"DELETE",
     headers: {
     Authorization: `Bearer ${token}`

@@ -20,7 +20,7 @@ function Form() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:4000/trans", {
+      const res = await fetch("https://walletwatcher-3.onrender.com/trans", {
         headers: {
           Authorization: `Bearer ${token}`
         }

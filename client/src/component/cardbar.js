@@ -55,7 +55,7 @@ export default function BasicCard(props) {
     let res;
     console.log("Form submitted:", form);
     if(props.edittransaction.price==undefined){
-       res = await fetch("http://localhost:4000/trans", {
+       res = await fetch("https://walletwatcher-3.onrender.com/trans", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
