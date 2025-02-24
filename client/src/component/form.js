@@ -12,7 +12,7 @@ function Form() {
   useEffect(() => {
     fetchTransactions();
   }, []);
-
+  const API_BASE_URL = "https://walletwatcher-3.onrender.com" || "http://localhost:4000";
   async function fetchTransactions() {
     const token = Cookies.get("token");
     if (!token) {
@@ -20,7 +20,7 @@ function Form() {
       return;
     }
     try {
-      const res = await fetch("https://walletwatcher-3.onrender.com/trans", {
+      const res = await fetch(`${API_BASE_URL}/trans`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -28,7 +28,7 @@ function Form() {
       if (!res.ok) {
         throw new Error("Failed to fetch transactions");
       }
-      const { data,data1 } = await res.json();
+      const { data, data1 } = await res.json();
       setTransactions(data);
       setTransactions1(data1);
       console.log("Data fetched successfully:", data);
@@ -40,11 +40,11 @@ function Form() {
   return (
     <>
       <div>
-      <Demo trans={transactions}/>
+        <Demo trans={transactions} />
         <BasicCard fetchtransaction={fetchTransactions} edittransaction={editTransaction} />
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
         <BasicTable trans={transactions1} fetchtransaction={fetchTransactions} edittransaction={setEditTransaction} />
       </div>
     </>

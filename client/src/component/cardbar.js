@@ -10,77 +10,71 @@ import Cookies from 'js-cookie';
 
 export default function BasicCard(props) {
   
- const navigate=useNavigate();
+ const navigate = useNavigate();
   const [form, setForm] = useState({
     number: "",
     desc: "",
     date: "",
   });
 
-
   const handlechange = (e) => {
     const { name, value } = e.target;
     setForm((prevform) => ({ ...prevform, [name]: value }));
   };
 
-  useEffect(()=>{
-    if(props.edittransaction.price != undefined){
-      console.log(props.edittransaction)
+  useEffect(() => {
+    if (props.edittransaction.price !== undefined) {
+      console.log(props.edittransaction);
       setForm({
-        number:props.edittransaction.price,
-        desc:props.edittransaction.desc,
-        date:formatdate(props.edittransaction.date)
-      })
-      
+        number: props.edittransaction.price,
+        desc: props.edittransaction.desc,
+        date: formatdate(props.edittransaction.date),
+      });
     }
- 
-  },[props.edittransaction])
+  }, [props.edittransaction]);
 
-  function formatdate(date){
-    if(!date) return " ";
-    else{
+  function formatdate(date) {
+    if (!date) return " ";
+    else {
       const d = new Date(date);
-    const month = (`0${d.getMonth() + 1}`).slice(-2);
-    const day = (`0${d.getDate()}`).slice(-2);
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
-  };
+      const month = (`0${d.getMonth() + 1}`).slice(-2);
+      const day = (`0${d.getDate()}`).slice(-2);
+      const year = d.getFullYear();
+      return `${year}-${month}-${day}`;
     }
-
-  
-
+  }
+  const API_BASE_URL = "https://walletwatcher-3.onrender.com" || "http://localhost:4000";
   async function handleSubmit(e) {
     const token = Cookies.get("token");
     e.preventDefault();
     let res;
     console.log("Form submitted:", form);
-    if(props.edittransaction.price==undefined){
-       res = await fetch("https://walletwatcher-3.onrender.com/trans", {
+    if (props.edittransaction.price === undefined) {
+      res = await fetch(`${API_BASE_URL}/trans`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(form),
       });
       console.log("res", res);
-    }
-    else{
-      res = await fetch(`http://localhost:4000/trans/${props.edittransaction._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-           Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(form),
-        
-      });
-      
+    } else {
+      res = await fetch(
+        `${API_BASE_URL}/trans/${props.edittransaction._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
     }
 
     if (res.ok) {
       props.fetchtransaction();
-      
     }
     const data = await res.json();
     console.log("res2", data);
@@ -90,14 +84,19 @@ export default function BasicCard(props) {
       date: "",
     });
   }
+
   return (
-    <Card sx={{  marginTop: 5, width:890,marginLeft:40}}>
+    <Card sx={{ marginTop: 5, width: 890, marginLeft: 40 }}>
       <CardContent>
         <form onSubmit={handleSubmit}>
-          <Typography variant="h6" style={{marginBottom:"24px"}}>{props.edittransaction.price !== undefined ? " Update New Transaction" :  "Add New Transaction"}</Typography>
+          <Typography variant="h6" style={{ marginBottom: "24px" }}>
+            {props.edittransaction.price !== undefined
+              ? "Update New Transaction"
+              : "Add New Transaction"}
+          </Typography>
           <TextField
-          type="number"
-           name="number"
+            type="number"
+            name="number"
             sx={{ marginRight: 5 }}
             id="outlined-basic-1"
             label="Amount(in Rs)"
@@ -126,14 +125,13 @@ export default function BasicCard(props) {
               onChange={handlechange}
             />
           </div>
-         <Button
-         type="submit"
-         variant="contained"
-         style={{ marginLeft: "710px", marginTop: "-78px" }}
-       >
-         {props.edittransaction.price !== undefined ? "Update" : "Submit"}
-       </Button>
- 
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ marginLeft: "710px", marginTop: "-78px" }}
+          >
+            {props.edittransaction.price !== undefined ? "Update" : "Submit"}
+          </Button>
         </form>
       </CardContent>
     </Card>

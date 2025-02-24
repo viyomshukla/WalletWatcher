@@ -23,11 +23,7 @@ mongoose.connect("mongodb+srv://viyomshukla21:viyom21@cluster0.zoglk.mongodb.net
 app.use(cors());   // use to send res through post
 app.use(bodyParser.json());
 app.use(passport.initialize());
-app.use(cors({
-  origin: "https://walletwatcher-1-pbsm.onrender.com",  // Replace with actual frontend URL
-  methods: "GET,POST,PUT,DELETE",
-  credentials: true
-}));
+
 // Routes
 app.get('/trans',passport.authenticate('jwt', { session: false }), async (req, res) => {
   const trans = await Transactionmodel.find({user_id:req.user._id});
