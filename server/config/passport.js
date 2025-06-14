@@ -2,11 +2,11 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 require('dotenv').config()
-const signupmodel = require('../models/signupmodel'); // Adjust the path as necessary
+const signupmodel = require('../models/signupmodel'); 
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = process.env.SECRET_KEY; // Use an environment variable in production
+opts.secretOrKey = process.env.SECRET_KEY; 
 
 passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
   try {

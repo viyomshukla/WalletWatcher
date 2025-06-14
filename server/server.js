@@ -14,7 +14,7 @@ const app = express();
 const port = process.env.PORT;
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://viyomshukla21:viyom21@cluster0.zoglk.mongodb.net/website"
+mongoose.connect("mongodb+srv://viyomshukla21:wzgjf3cTrf43O8xc@cluster0.tugjybd.mongodb.net/website?retryWrites=true&w=majority&appName=Cluster0"
 )
 .then(() => console.log("Successfully connected to MongoDB"))
 .catch((err) => console.log("Error connecting to MongoDB:", err));
@@ -58,7 +58,7 @@ app.post('/trans', passport.authenticate('jwt', { session: false }), async (req,
   const {number,desc,date}=req.body;
   const trans=new Transactionmodel({
       price:number,
-      user_id:req.user._id,     ///user is importing from passport->passport mei hai header authorization use nikalega woh details       
+      user_id:req.user._id,    
       desc:desc,
       date:date
   })
@@ -95,8 +95,8 @@ if(user){
 }
 else{
   try{
-// Hash the password
-const saltRounds = 10; // Number of salt rounds can be adjusted based on your security needs
+
+const saltRounds = 10; 
 const hashedPassword = await bcrypt.hash(password, saltRounds);
 const signup= new signupmodel({
  firstname:firstname,

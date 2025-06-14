@@ -16,7 +16,26 @@ export default function BasicCard(props) {
     desc: "",
     date: "",
   });
+   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
 
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
   const handlechange = (e) => {
     const { name, value } = e.target;
     setForm((prevform) => ({ ...prevform, [name]: value }));
