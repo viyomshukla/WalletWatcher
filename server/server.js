@@ -24,6 +24,12 @@ app.use(cors());   // use to send res through post
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
+app.get('/',(req,res)=>{
+  res.send({
+    activeStatus:true,
+    error:false
+  })
+})
 // Routes
 app.get('/trans',passport.authenticate('jwt', { session: false }), async (req, res) => {
   const trans = await Transactionmodel.find({user_id:req.user._id});
@@ -49,9 +55,7 @@ app.get('/trans',passport.authenticate('jwt', { session: false }), async (req, r
 
 });
 
-app.get('/', (req, res) => {
-  res.send("hello world !!");
-});
+
 
 app.post('/trans', passport.authenticate('jwt', { session: false }), async (req,res)=>{
     
