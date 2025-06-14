@@ -30,7 +30,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     };
-    const API_BASE_URL = "https://walletwatcher-3.onrender.com" || "http://localhost:4000";
+    const API_BASE_URL = "https://walletwatcher-3.onrender.com" 
     try {
       const res = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",

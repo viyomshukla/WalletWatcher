@@ -34,34 +34,39 @@ const validationSchema = Yup.object({
     .required("Password is required"),
 });
 
-const API_BASE_URL = "https://walletwatcher-3.onrender.com" || "http://localhost:4000";
+const API_BASE_URL = "https://walletwatcher-3.onrender.com" 
 export default function SignUp() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+const handleSubmit = async (values, { setSubmitting }) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok) {
-        if (data.message === "User already exists") {
-          alert("User already exists");
-        } else {
-          navigate("/login");
-        }
+    if (res.ok) {
+      if (data.message === "User already exists") {
+        alert("User already exists");
       } else {
-        alert("Signup failed. Please try again.");
+        alert("Signup successful!");
+        navigate("/login");
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } else {
+      console.error("Server error response:", data);
+      alert(`Signup failed: ${data.message || "Unknown error occurred."}`);
     }
+  } catch (error) {
+    console.error("Network or CORS error:", error);
+    alert("Network error: Unable to reach the server. Please try again later.");
+  } finally {
     setSubmitting(false);
-  };
+  }
+};
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
