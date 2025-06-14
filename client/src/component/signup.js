@@ -33,6 +33,7 @@ const validationSchema = Yup.object({
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
+
 const API_BASE_URL = "https://walletwatcher-3.onrender.com" || "http://localhost:4000";
 export default function SignUp() {
   const navigate = useNavigate();
